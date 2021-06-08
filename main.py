@@ -1,8 +1,7 @@
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 from collections import OrderedDict
-
-from sqlalchemy.engine import Inspector
+# from sqlalchemy.engine import Inspector
 from config import USER, PASSWORD
 from sqlalchemy import Column, Integer, String, MetaData, ForeignKey, Boolean, Text, Date, create_engine, \
     CheckConstraint
@@ -95,8 +94,8 @@ def App():
 
             # Make login and password entry lines
             self.login = ttk.Combobox(self,
-                                      values=('Lol', 'Alex', 'Bob', 'postgres'), width=70, justify='center')
-            self.login.set('postgres')
+                                      values=('Lol', 'Alex', 'Bob', 'postgres', USER), width=70, justify='center')
+            self.login.set(USER)
             self.password = Entry(self, width=70, text='Enter your password')
             self.password.insert(0, 'Enter your password...')
             self.password.bind('<FocusIn>', self.on_entry_click)
