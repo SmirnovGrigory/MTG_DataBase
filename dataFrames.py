@@ -9,6 +9,8 @@ from config import USER, PASSWORD
 
 engine = create_engine('postgresql://{}:{}@localhost/mtg'.format(USER, PASSWORD),
                        echo=True)
+
+
 def CardLoginChanger(forget, show):
     def changer(event):
         show.password.delete(0, 'end')
@@ -24,8 +26,8 @@ def CardSetChanger(forget, show):
     def changer(event):
         forget.pack_forget()
         show.pack()
-
     return changer
+
 
 class ViewFrame(Frame):
     def __init__(self, parent=None):
@@ -60,13 +62,12 @@ class ViewFrame(Frame):
 
         b1 = Button(right_frame, bg="red", fg="blue",
                     text="Change State!!!")
-        b2 = Button(right_frame, bg="red", fg="blue",
+        self.b2 = Button(right_frame, bg="red", fg="blue",
                     text="add new card")
-        b2.config(command=self.add_gaps_for_card_info)
         self.b4 = Button(right_frame, bg="red", fg="blue",
                          text="Sets")
         b1.pack()
-        b2.pack()
+        self.b2.pack()
         self.b4.pack()
 
         table_frame.pack(expand=YES, fill=BOTH, side=LEFT)
@@ -84,14 +85,8 @@ class ViewFrame(Frame):
     def set_new_changer(self, view):
         self.b4.bind('<ButtonRelease-1>', CardSetChanger(self, view))
 
-    def add_gaps_for_card_info(self):
-        self.entryName = Entry(self, width=50, text='Name')
-        self.entryColor = Entry(self, width=50, text='Color')
-        self.entryManaValue = Entry(self, width=50, text='ManaValue')
-        self.entryType = Entry(self, width=50, text='Type')
-        self.entrySet = Entry(self, width=50, text='Set')
-        self.entryRarity = Entry(self, width=50, text='Rarity')
-        # self.entryisLegendary = Entry(self, width=50, text='Name')
+    def set_insert_changer(self, view):
+        self.b2.bind('<ButtonRelease-1>', CardSetChanger(self, view))
 
 
 class SetFrame(Frame):
@@ -153,5 +148,3 @@ class SetFrame(Frame):
 
     def set_new_changer(self, view):
         self.b4.bind('<ButtonRelease-1>', CardSetChanger(self, view))
-
-

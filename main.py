@@ -3,27 +3,29 @@
 
 from loginFrame import LoginFrame
 from dataFrames import *
+from insertFrame import *
 from tkinter import *
 
 
 def app():
-
     root = Tk()
-    root.title("Our database")
+    root.title("MTG database")
 
-    loggin_f = LoginFrame(root)
-    loggin_f.pack()
+    login_f = LoginFrame(root)
+    login_f.pack()
 
     view_f = ViewFrame(root)
     set_f = SetFrame(root)
+    insert_f = InsertFrame(root)
+    login_f.set_changer(view_f)
+    insert_f.cancelInsert(view_f)
 
-    loggin_f.set_changer(view_f)
-
-    set_f.set_changer(loggin_f)
+    set_f.set_changer(login_f)
     set_f.set_new_changer(view_f)
 
-    view_f.set_changer(loggin_f)
+    view_f.set_changer(login_f)
     view_f.set_new_changer(set_f)
+    view_f.set_insert_changer(insert_f)
 
     root.mainloop()
 
