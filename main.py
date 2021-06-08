@@ -224,6 +224,8 @@ def App():
             table = Table(table_frame, headings=headings, rows=sorted_data)
             table.pack(expand=YES, fill=BOTH)
 
+            data = session.query(func.public.print_cards()).all()
+
             session.close()
 
             b1 = Button(right_frame, bg="red", fg="blue",
@@ -283,6 +285,8 @@ def App():
         return changer
 
     root = Tk()
+    root.title("Our database")
+
     loggin_f = LogginFrame(root)
     loggin_f.pack()
 
