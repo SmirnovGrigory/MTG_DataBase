@@ -17,8 +17,10 @@ def app():
     view_f = ViewFrame(root)
     set_f = SetFrame(root)
     insert_f = InsertFrame(root)
+
     login_f.set_changer(view_f)
     insert_f.cancelInsert(view_f)
+    insert_f.commitRow(view_f)
 
     set_f.set_changer(login_f)
     set_f.set_new_changer(view_f)

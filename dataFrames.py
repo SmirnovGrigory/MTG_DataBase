@@ -32,9 +32,15 @@ def CardSetChanger(forget, show):
 
 def clearCards(session):
     def changer(event):
-        session.query(func.public.clearcards()).all()
+        session.query(func.public.clearcards()).first()
+        session.commit()
     return changer
 
+def clearSets(session):
+    def changer(event):
+        session.query(func.public.clearsets()).first()
+        session.commit()
+    return changer
 
 class ViewFrame(Frame):
     def __init__(self, parent=None):
@@ -70,7 +76,6 @@ class ViewFrame(Frame):
         self.b4 = Button(right_frame, bg="red", fg="blue", text="Sets")
         self.clearCardsButton = Button(right_frame, bg="red", fg="blue", text="clear cards")
         self.clearCardsButton.bind('<ButtonRelease-1>', clearCards(session))
-        self.clearSetsButton = Button(right_frame, bg="red", fg="blue", text="clear sets")
         self.clearAllTablesButton = Button(right_frame, bg="red", fg="blue", text="clear all")
         self.findCardButton = Button(right_frame, bg="red", fg="blue", text="find card")
 
@@ -80,7 +85,6 @@ class ViewFrame(Frame):
         self.b2.pack()
         self.b4.pack()
         self.clearCardsButton.pack()
-        self.clearSetsButton.pack()
         self.clearAllTablesButton.pack()
         self.findCardButton.pack()
 
@@ -135,7 +139,7 @@ class SetFrame(Frame):
         #   func.public.insert_row_in_cards('Skyblade of the Legion', 'White', 2, 'Creature', 'Ixalan', 'Common',
         #                                  False)).all()
 
-        session.close()
+        # session.close()
 
         b1 = Button(right_frame, bg="red", fg="blue",
                     text="tt")
@@ -146,12 +150,14 @@ class SetFrame(Frame):
         self.b4 = Button(right_frame, bg="red", fg="blue",
                          text="Cards")
         self.b4.pack(side=LEFT)
+        self.clearSetsButton = Button(right_frame, bg="red", fg="blue", text="clear sets")
+        self.clearSetsButton.bind('<ButtonRelease-1>', clearSets(session))
 
         table_frame.pack(expand=YES, fill=BOTH, side=LEFT)
         right_frame.pack(expand=YES, fill=BOTH, side=LEFT)
 
-        self.b3 = Button(self.bottom_frame, bg="red", fg="blue",
-                         text="Exit")
+        self.clearSetsButton.pack()
+        self.b3 = Button(self.bottom_frame, bg="red", fg="blue", text="Exit")
         self.b3.pack(side=LEFT)
         self.top_f.pack()
         self.bottom_frame.pack()

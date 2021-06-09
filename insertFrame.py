@@ -1,11 +1,36 @@
 from tkinter import *
+
+from sqlalchemy.orm import sessionmaker
+
 from dataClasses import *
 from dataFrames import engine
 
 
-
 def insertFrameChanger(forget, show):
     def changer(event):
+        forget.pack_forget()
+        show.pack()
+
+    return changer
+
+
+def commitFrameChanger(forget, show):
+    def changer(event):
+        newCard = Card(forget.entryName.get(),
+                       forget.entryColor.get(),
+                       forget.entryManaValue.get(),
+                       forget.entryType.get(),
+                       forget.entrySet.get(),
+                       forget.entryRarity.get(),
+                       forget.isLegendary.get())
+
+        Session = sessionmaker(bind=engine)  # bound session
+        session = Session()
+        try:
+            session.add(Card)
+            session.commit()
+        finally:
+            session.close()
         forget.pack_forget()
         show.pack()
 
@@ -26,7 +51,8 @@ class InsertFrame(Frame):
         self.entryType = Entry(self, width=50, text='Type')
         self.entrySet = Entry(self, width=50, text='Set')
         self.entryRarity = Entry(self, width=50, text='Rarity')
-        self.isLegendaryRadio = Radiobutton(text='isLegendary', value=False)  #######
+        self.isLegendary = BooleanVar()
+        self.isLegendaryRadio = Checkbutton(self, text='isLegendary', variable=self.isLegendary)  #######
 
         self.entryName.pack()
         self.entryColor.pack()
@@ -51,7 +77,7 @@ class InsertFrame(Frame):
         self.bottom_frame.pack()
 
     def commitRow(self, view):
-        pass
+        self.commitButton.bind('<ButtonRelease-1>', commitFrameChanger(self, view))
 
     def cancelInsert(self, view):
         self.cancelButton.bind('<ButtonRelease-1>', insertFrameChanger(self, view))
