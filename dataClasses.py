@@ -10,7 +10,7 @@ class Card(Base):
     __table_args__ = {'schema': 'public'}
 
     ManaValue = Column(Integer, CheckConstraint('ManaValue >= 0'), nullable=False)
-    Set = Column(String, ForeignKey("sets.Name"), nullable=False)
+    Set = Column(String, ForeignKey("public.Sets.Name"), nullable=False)
     Name = Column(String, primary_key=True, nullable=False, autoincrement=True)
     Rarity = Column(String(8), nullable=False)
     Color = Column(String(9), nullable=False)
