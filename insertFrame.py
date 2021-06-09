@@ -27,7 +27,7 @@ def commitFrameChanger(forget, show):
         Session = sessionmaker(bind=engine)  # bound session
         session = Session()
         try:
-            session.add(Card)
+            session.add(newCard)
             session.commit()
         finally:
             session.close()
