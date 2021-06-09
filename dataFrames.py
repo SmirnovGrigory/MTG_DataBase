@@ -26,6 +26,13 @@ def CardSetChanger(forget, show):
     def changer(event):
         forget.pack_forget()
         show.pack()
+
+    return changer
+
+
+def clearCards(session):
+    def changer(event):
+        session.query(func.public.clearcards()).all()
     return changer
 
 
@@ -58,23 +65,29 @@ class ViewFrame(Frame):
 
         table.pack(expand=YES, fill=BOTH)
 
-        session.close()
+        # b1 = Button(right_frame, bg="red", fg="blue", text="Change State!!!")
+        self.b2 = Button(right_frame, bg="red", fg="blue", text="add new card")
+        self.b4 = Button(right_frame, bg="red", fg="blue", text="Sets")
+        self.clearCardsButton = Button(right_frame, bg="red", fg="blue", text="clear cards")
+        self.clearCardsButton.bind('<ButtonRelease-1>', clearCards(session))
+        self.clearSetsButton = Button(right_frame, bg="red", fg="blue", text="clear sets")
+        self.clearAllTablesButton = Button(right_frame, bg="red", fg="blue", text="clear all")
+        self.findCardButton = Button(right_frame, bg="red", fg="blue", text="find card")
 
-        b1 = Button(right_frame, bg="red", fg="blue",
-                    text="Change State!!!")
-        self.b2 = Button(right_frame, bg="red", fg="blue",
-                    text="add new card")
-        self.b4 = Button(right_frame, bg="red", fg="blue",
-                         text="Sets")
-        b1.pack()
+        # session.close()
+
+        # b1.pack()
         self.b2.pack()
         self.b4.pack()
+        self.clearCardsButton.pack()
+        self.clearSetsButton.pack()
+        self.clearAllTablesButton.pack()
+        self.findCardButton.pack()
 
         table_frame.pack(expand=YES, fill=BOTH, side=LEFT)
         right_frame.pack(expand=YES, fill=BOTH, side=LEFT)
 
-        self.b3 = Button(self.bottom_frame, bg="red", fg="blue",
-                         text="Exit")
+        self.b3 = Button(self.bottom_frame, bg="red", fg="blue", text="Exit")
         self.b3.pack(side=LEFT)
         self.top_f.pack()
         self.bottom_frame.pack()

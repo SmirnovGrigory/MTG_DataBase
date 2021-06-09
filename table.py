@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter.ttk as ttk
 
+
 class Table:
     def __init__(self, parent, headings=tuple(), rows=tuple()):
         table = ttk.Treeview(parent, show="headings", selectmode="browse")

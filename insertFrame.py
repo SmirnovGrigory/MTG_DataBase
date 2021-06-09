@@ -39,8 +39,8 @@ class InsertFrame(Frame):
         self.commitButton = Button(right_frame, bg="red", fg="blue", text="commit")
         self.cancelButton = Button(right_frame, bg="red", fg="blue", text="cancel")
 
-        self.commitButton.config(command=self.commitRow)
-        self.cancelButton.config(command=self.cancelInsert)
+        # self.commitButton.config(command=self.commitRow)
+        # self.cancelButton.config(command=self.cancelInsert)
 
         self.commitButton.pack(side=LEFT)
         self.cancelButton.pack(side=LEFT)
