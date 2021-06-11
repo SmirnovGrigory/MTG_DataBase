@@ -17,14 +17,14 @@ class Card(Base):
     isLegendary = Column(Boolean, nullable=False, default=False)
     Type = Column(String(12), nullable=False)
 
-    def __init__(self, name, color, mana_value, type, set, rarity, is_legendary):
+    def __init__(self, name, color, mana_value, type, set, rarity, is_legendary_):
         self.Name = name
         self.Color = color
         self.ManaValue = mana_value
         self.Type = type
         self.Set = set
         self.Rarity = rarity
-        self.IsLegendary = is_legendary
+        self.isLegendary = is_legendary_
 
     def __repr__(self):
         return self.Name

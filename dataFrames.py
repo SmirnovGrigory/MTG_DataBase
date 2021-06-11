@@ -88,9 +88,9 @@ class ViewFrame(Frame):
 
         sorted_data = [list(OrderedDict((k, d[k]) for k in headings).values()) for d in rows_data]
 
-        table = Table(table_frame, headings=headings, rows=sorted_data)
+        self.table = Table(table_frame, headings=headings, rows=sorted_data)
 
-        table.pack(expand=YES, fill=BOTH)
+        self.table.pack(expand=YES, fill=BOTH)
 
         self.b2 = Button(right_frame, bg="red", fg="blue", text="add new card")
         self.b4 = Button(right_frame, bg="red", fg="blue", text="Sets")

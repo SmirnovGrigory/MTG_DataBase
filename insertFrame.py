@@ -25,7 +25,7 @@ def commitFrameChanger(forget, show):
                        forget.entryType.get(),
                        forget.entrySet.get(),
                        forget.entryRarity.get(),
-                       forget.isLegendary.get())
+                       forget.IsLegendary.get())
 
         Session = sessionmaker(bind=engine)  # bound session
         session = Session()
@@ -73,8 +73,8 @@ class InsertFrame(Frame):
         self.setLabel = Label(fif_frame, text='Set')
         self.entryRarity = Entry(six_frame, width=50, text='Rarity')
         self.rarityLabel = Label(six_frame, text='Rarity')
-        self.isLegendary = BooleanVar()
-        self.isLegendaryRadio = Checkbutton(self, text='isLegendary', variable=self.isLegendary)
+        self.IsLegendary = BooleanVar()
+        self.isLegendaryRadio = Checkbutton(self, text='isLegendary', variable=self.IsLegendary)
 
         self.entryName.pack(side=RIGHT)
         self.nameLabel.pack(side=LEFT)
