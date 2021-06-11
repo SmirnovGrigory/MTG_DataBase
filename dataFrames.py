@@ -34,13 +34,38 @@ def clearCards(session):
     def changer(event):
         session.query(func.public.clearcards()).first()
         session.commit()
+
     return changer
+
 
 def clearSets(session):
     def changer(event):
         session.query(func.public.clearsets()).first()
         session.commit()
+
     return changer
+
+
+def createDB(session):
+    def changer(event):
+        pass
+
+    return changer
+
+
+def deleteDB(session):
+    def changer(event):
+        pass
+
+    return changer
+
+
+def showOneCardFrame(session, name):
+    def changer(event):
+        lstCardFields = session.query(func.public.get_card(name)).all()
+
+    return changer
+
 
 class ViewFrame(Frame):
     def __init__(self, parent=None):
@@ -55,10 +80,6 @@ class ViewFrame(Frame):
         Session = sessionmaker(bind=engine)  # bound session
         session = Session()
 
-        # for q in session.query(Card).all():
-        #     z = list(q.__dict__.values())[1:]
-        #     print(z)
-
         rows_data = [q.__dict__ for q in session.query(Card).all()]
         for card in rows_data:
             card.pop('_sa_instance_state')
@@ -71,22 +92,29 @@ class ViewFrame(Frame):
 
         table.pack(expand=YES, fill=BOTH)
 
-        # b1 = Button(right_frame, bg="red", fg="blue", text="Change State!!!")
         self.b2 = Button(right_frame, bg="red", fg="blue", text="add new card")
         self.b4 = Button(right_frame, bg="red", fg="blue", text="Sets")
         self.clearCardsButton = Button(right_frame, bg="red", fg="blue", text="clear cards")
         self.clearCardsButton.bind('<ButtonRelease-1>', clearCards(session))
         self.clearAllTablesButton = Button(right_frame, bg="red", fg="blue", text="clear all")
+
+        self.entryName = Entry(self, width=50, text='card name')
         self.findCardButton = Button(right_frame, bg="red", fg="blue", text="find card")
+        self.findCardButton.bind('<ButtonRelease-1>', showOneCardFrame(session, self.entryName.get()))
+        self.createDBButton = Button(right_frame, bg="red", fg="blue", text="add new DB")
+        self.createDBButton.bind('<ButtonRelease-1>', createDB(session))
 
-        # session.close()
+        self.deleteDBButton = Button(right_frame, bg="red", fg="blue", text="delete DB")
+        self.deleteDBButton.bind('<ButtonRelease-1>', deleteDB(session))
 
-        # b1.pack()
         self.b2.pack()
         self.b4.pack()
         self.clearCardsButton.pack()
         self.clearAllTablesButton.pack()
+        self.entryName.pack()
         self.findCardButton.pack()
+        self.createDBButton.pack()
+        self.deleteDBButton.pack()
 
         table_frame.pack(expand=YES, fill=BOTH, side=LEFT)
         right_frame.pack(expand=YES, fill=BOTH, side=LEFT)
@@ -119,10 +147,6 @@ class SetFrame(Frame):
         Session = sessionmaker(bind=engine)  # bound session
         session = Session()
 
-        # for q in session.query(Card).all():
-        #     z = list(q.__dict__.values())[1:]
-        #     print(z)
-
         sets_data = [q.__dict__ for q in session.query(Set).all()]
         for set in sets_data:
             set.pop('_sa_instance_state')
@@ -135,11 +159,6 @@ class SetFrame(Frame):
         table.pack(expand=YES, fill=BOTH)
 
         data = session.query(func.public.print_cards()).all()
-        # session.query(
-        #   func.public.insert_row_in_cards('Skyblade of the Legion', 'White', 2, 'Creature', 'Ixalan', 'Common',
-        #                                  False)).all()
-
-        # session.close()
 
         b1 = Button(right_frame, bg="red", fg="blue",
                     text="tt")

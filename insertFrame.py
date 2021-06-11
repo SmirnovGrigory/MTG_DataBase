@@ -74,7 +74,7 @@ class InsertFrame(Frame):
         self.entryRarity = Entry(six_frame, width=50, text='Rarity')
         self.rarityLabel = Label(six_frame, text='Rarity')
         self.isLegendary = BooleanVar()
-        self.isLegendaryRadio = Checkbutton(self, text='isLegendary', variable=self.isLegendary)  #######
+        self.isLegendaryRadio = Checkbutton(self, text='isLegendary', variable=self.isLegendary)
 
         self.entryName.pack(side=RIGHT)
         self.nameLabel.pack(side=LEFT)
@@ -91,9 +91,6 @@ class InsertFrame(Frame):
 
         self.commitButton = Button(right_frame, bg="red", fg="blue", text="commit")
         self.cancelButton = Button(right_frame, bg="red", fg="blue", text="cancel")
-
-        # self.commitButton.config(command=self.commitRow)
-        # self.cancelButton.config(command=self.cancelInsert)
 
         self.commitButton.pack(side=LEFT)
         self.cancelButton.pack(side=LEFT)
