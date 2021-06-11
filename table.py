@@ -7,6 +7,7 @@ class Table:
         table = ttk.Treeview(parent, show="headings", selectmode="browse")
         table["columns"] = headings
         table["displaycolumns"] = headings
+        self.headings = headings
 
         for head in headings:
             table.heading(head, text=head, anchor=CENTER)
@@ -30,3 +31,12 @@ class Table:
         for selection in self.table.selection():
             item = self.table.item(selection)
             print(item["values"])
+
+    def free(self):
+        #self.table.get_children();
+        for i in self.table.get_children():
+            self.table.delete(i)
+
+    def fill(self, rows=tuple()):
+        for row in rows:
+            self.table.insert('', END, values=tuple(row))
