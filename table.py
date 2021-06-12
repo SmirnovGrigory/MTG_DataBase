@@ -65,7 +65,7 @@ class Table:
 
         return print_selection
 
-    def next_generation(self, show):
+    def next_generation(self):
         def changer(event):
             for selection in self.table.selection():
                 item = self.table.item(selection)
@@ -89,8 +89,16 @@ class Table:
                 # for card in data:
                 #     card.pop('_sa_instance_state')
                 sorted_data = [list(OrderedDict((k, d[k]) for k in headings).values()) for d in data]
+
+                for frame in self.parent.master.master.master.children.values():
+                    if (frame.widgetName == 'CardFrame' and self.tablename == 'Cards') or \
+                            (frame.widgetName == 'SetFrame' and self.tablename == 'Sets'):
+                        show = frame
+
+
                 show.table.free()
-                show.table.fill(sorted_data)
+                show.table.clear_headings()
+                show.table.fill(sorted_data, headings)
                 show.update()
 
                 self.parent.master.master.pack_forget()
@@ -104,6 +112,12 @@ class Table:
         for i in self.table.get_children():
             self.table.delete(i)
 
-    def fill(self, rows=tuple()):
+    def clear_headings(self):
+        self.headings.clear()
+
+    def fill(self, rows=tuple(), headings=tuple()):
         for row in rows:
             self.table.insert('', END, values=tuple(row))
+
+        #self.table["columns"] = headings
+        self.table.headings = headings

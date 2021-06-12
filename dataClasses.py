@@ -43,12 +43,10 @@ class Set(Base):
     Size = Column(Integer, CheckConstraint('Size > 0'), nullable=False)
     Block = Column(String, nullable=False)
     ReleaseDate = Column(Date, nullable=False)
-    SetCode = Column(String(3), CheckConstraint('SetCode == upper(SetCode)'), nullable=False, unique=True)
     CountCards = Column(Integer, default=0)
 
-    def __init__(self, name, set_code, release_date, size, block, count_cards):
+    def __init__(self, name, release_date, size, block, count_cards):
         self.Name = name
-        self.SetCode = set_code
         self.ReleaseDate = release_date
         self.Size = size
         self.Block = block

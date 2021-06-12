@@ -263,8 +263,8 @@ class SetFrame(Frame):
 
         sorted_data = [list(OrderedDict((k, d[k]) for k in headings).values()) for d in sets_data]
 
-        table = Table(table_frame, headings=headings, rows=sorted_data)
-        table.pack(expand=YES, fill=BOTH)
+        self.table = Table(table_frame, headings=headings, rows=sorted_data)
+        self.table.pack(expand=YES, fill=BOTH)
 
         data = session.query(func.public.print_cards()).all()
 

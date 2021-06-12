@@ -24,7 +24,7 @@ def deleteDB(session):
 
     return changer
 
-def DBInsertChanger(forget, show):
+def DBInsertChanger(forget, show, state):
     def changer(event):
         show.entry_sheet = Frame(show)
         one_frame = Frame(show.entry_sheet)
@@ -68,7 +68,7 @@ def DBInsertChanger(forget, show):
         # six_frame.pack(side=TOP)
 
         show.entry_sheet.pack(side=TOP)
-        show.commitButton.bind('<ButtonRelease-1>', commitFrameChanger(show, forget, 0))
+        show.commitButton.bind('<ButtonRelease-1>', commitFrameChanger(show, forget, state))
         show.cancelButton.bind('<ButtonRelease-1>', insertFrameChanger(show, forget))
         forget.pack_forget()
         show.pack()
@@ -115,11 +115,11 @@ class DBFrame(Frame):
         #self.pack()
 
     def insert_changer(self, view):
-        self.createDBButton.bind('<ButtonRelease-1>', DBInsertChanger(self, view))
+        self.createDBButton.bind('<ButtonRelease-1>', DBInsertChanger(self, view, 0))
 
-    # def set_changer(self, view):
-    #     self.b3.bind('<ButtonRelease-1>', CardLoginChanger(self, view))
-    #
+    def set_changer(self, view):
+        self.deleteDBButton.bind('<ButtonRelease-1>', DBInsertChanger(self, view, 2))
+
     # def set_new_changer(self, view):
     #     self.b4.bind('<ButtonRelease-1>', CardSetChanger(self, view))
     #

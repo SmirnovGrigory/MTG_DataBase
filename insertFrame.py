@@ -44,14 +44,20 @@ def commitFrameChanger(forget, show, state):
                 sorted_data = [list(OrderedDict((k, d[k]) for k in show.table.headings).values()) for d in rows_data]
                 show.table.fill(sorted_data)
                 show.update()
-                forget.pack_forget()
-                show.pack()
             finally:
                 session.close()
+
         elif state == 0:
             Session = sessionmaker(bind=engine)  # bound session
             session = Session()
-            session.query(func.public.create_database()).all()
+            dbname = ''
+            children = forget.entry_sheet.pack_slaves()
+            for real_children in children:
+                for real in real_children.pack_slaves():
+                    if isinstance(real, Entry):
+                        dbname = real.get()
+            session.query(func.public.create_database(dbname, PASSWORD)).all()
+
             # rows_data = [q.__dict__ for q in session.query(Card).all()]
             # for card in rows_data:
             #     card.pop('_sa_instance_state')
@@ -59,8 +65,20 @@ def commitFrameChanger(forget, show, state):
             # sorted_data = [list(OrderedDict((k, d[k]) for k in show.table.headings).values()) for d in rows_data]
             # show.table.fill(sorted_data)
             # show.update()
-            forget.pack_forget()
-            show.pack()
+
+        elif state == 2:
+            Session = sessionmaker(bind=engine)  # bound session
+            session = Session()
+            dbname = ''
+            children = forget.entry_sheet.pack_slaves()
+            for real_children in children:
+                for real in real_children.pack_slaves():
+                    if isinstance(real, Entry):
+                        dbname = real.get()
+            session.query(func.public.drop_database(dbname, PASSWORD)).all()
+
+        forget.pack_forget()
+        show.pack()
 
     return changer
 

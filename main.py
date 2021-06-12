@@ -33,9 +33,10 @@ def app():
     insert_f.widgetName = 'InsertFrame'
 
     db_f.table.table.bind("<<TreeviewSelect>>", db_f.table.generation(tbl_f))
-    tbl_f.table.table.bind("<<TreeviewSelect>>", tbl_f.table.next_generation(view_f))
+    tbl_f.table.table.bind("<<TreeviewSelect>>", tbl_f.table.next_generation())
 
     db_f.insert_changer(insert_f)
+    db_f.set_changer(insert_f)
 
     login_f.set_changer(db_f)
     #insert_f.cancelInsert(view_f)
