@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from tkinter import *
 
-from sqlalchemy import inspect
+from sqlalchemy import inspect, func
 from sqlalchemy.orm import sessionmaker
 
 from dataClasses import *
@@ -20,32 +20,47 @@ def insertFrameChanger(forget, show):
     return changer
 
 
-def commitFrameChanger(forget, show):
+def commitFrameChanger(forget, show, state):
     def changer(event):
-        newCard = Card(forget.entryName.get(),
-                       forget.entryColor.get(),
-                       forget.entryManaValue.get(),
-                       forget.entryType.get(),
-                       forget.entrySet.get(),
-                       forget.entryRarity.get(),
-                       forget.IsLegendary.get())
+        if state == 1:
+            # newCard = Card(forget.entryName.get(),
+            #                forget.entryColor.get(),
+            #                forget.entryManaValue.get(),
+            #                forget.entryType.get(),
+            #                forget.entrySet.get(),
+            #                forget.entryRarity.get(),
+            #                forget.IsLegendary.get())
+            newCard = Card(*[data.get() for data in forget.pack_slaves()])
 
-        Session = sessionmaker(bind=engine)  # bound session
-        session = Session()
-        try:
-            session.add(newCard)
-            session.commit()
-            rows_data = [q.__dict__ for q in session.query(Card).all()]
-            for card in rows_data:
-                card.pop('_sa_instance_state')
-            show.table.free()
-            sorted_data = [list(OrderedDict((k, d[k]) for k in show.table.headings).values()) for d in rows_data]
-            show.table.fill(sorted_data)
-            show.update()
-        finally:
-            session.close()
-        forget.pack_forget()
-        show.pack()
+            Session = sessionmaker(bind=engine)  # bound session
+            session = Session()
+            try:
+                session.add(newCard)
+                session.commit()
+                rows_data = [q.__dict__ for q in session.query(Card).all()]
+                for card in rows_data:
+                    card.pop('_sa_instance_state')
+                show.table.free()
+                sorted_data = [list(OrderedDict((k, d[k]) for k in show.table.headings).values()) for d in rows_data]
+                show.table.fill(sorted_data)
+                show.update()
+                forget.pack_forget()
+                show.pack()
+            finally:
+                session.close()
+        elif state == 0:
+            Session = sessionmaker(bind=engine)  # bound session
+            session = Session()
+            session.query(func.public.create_database()).all()
+            # rows_data = [q.__dict__ for q in session.query(Card).all()]
+            # for card in rows_data:
+            #     card.pop('_sa_instance_state')
+            # show.table.free()
+            # sorted_data = [list(OrderedDict((k, d[k]) for k in show.table.headings).values()) for d in rows_data]
+            # show.table.fill(sorted_data)
+            # show.update()
+            forget.pack_forget()
+            show.pack()
 
     return changer
 

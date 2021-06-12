@@ -8,6 +8,8 @@ Base = declarative_base()
 engine = create_engine('postgresql://{}:{}@localhost/mtg'.format(USER, PASSWORD),
                        echo=True)
 
+new_engine = 0
+
 class Card(Base):
     __tablename__ = 'Cards'
     __table_args__ = {'schema': 'public'}

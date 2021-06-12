@@ -1,8 +1,10 @@
 from tkinter import *
 from collections import OrderedDict
+
+from sqlalchemy.engine import Inspector
 from sqlalchemy.inspection import inspect
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import func
+from sqlalchemy import func, Table as SQLTable
 from dataClasses import *
 from insertFrame import commitFrameChanger, insertFrameChanger
 from table import Table
@@ -74,7 +76,7 @@ def CardInsertChanger(forget, show):
 
         show.entry_sheet.pack(side=TOP)
         forget.pack_forget()
-        show.commitButton.bind('<ButtonRelease-1>', commitFrameChanger(show, forget))
+        show.commitButton.bind('<ButtonRelease-1>', commitFrameChanger(show, forget, 1))
         show.cancelButton.bind('<ButtonRelease-1>', insertFrameChanger(show, forget))
         show.pack()
 
@@ -124,7 +126,7 @@ def SetInsertChanger(forget, show):
         six_frame.pack(side=TOP)
 
         show.entry_sheet.pack(side=TOP)
-        show.commitButton.bind('<ButtonRelease-1>', commitFrameChanger(show, forget))
+        show.commitButton.bind('<ButtonRelease-1>', commitFrameChanger(show, forget, 1))
         show.cancelButton.bind('<ButtonRelease-1>', insertFrameChanger(show, forget))
         forget.pack_forget()
         show.pack()
@@ -146,7 +148,6 @@ def clearSets(session):
         session.commit()
 
     return changer
-
 
 def createDB(session):
     def changer(event):
@@ -178,9 +179,14 @@ class ViewFrame(Frame):
         self.bottom_frame = Frame(self)
 
         inspector = inspect(engine)
+        meta = MetaData(engine)
+        user_table = SQLTable('Cards', meta)
+        inspector.reflect_table(user_table, None)
 
         Session = sessionmaker(bind=engine)  # bound session
         session = Session()
+
+        z = session.query(user_table).all()
 
         rows_data = [q.__dict__ for q in session.query(Card).all()]
         for card in rows_data:
