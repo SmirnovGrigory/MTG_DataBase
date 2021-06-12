@@ -23,14 +23,14 @@ def insertFrameChanger(forget, show):
 def commitFrameChanger(forget, show, state):
     def changer(event):
         if state == 1:
-            # newCard = Card(forget.entryName.get(),
-            #                forget.entryColor.get(),
-            #                forget.entryManaValue.get(),
-            #                forget.entryType.get(),
-            #                forget.entrySet.get(),
-            #                forget.entryRarity.get(),
-            #                forget.IsLegendary.get())
-            newCard = Card(*[data.get() for data in forget.pack_slaves()])
+            newCard = Card(forget.entryName.get(),
+                           forget.entryColor.get(),
+                           forget.entryManaValue.get(),
+                           forget.entryType.get(),
+                           forget.entrySet.get(),
+                           forget.entryRarity.get(),
+                           forget.IsLegendary.get())
+            #newCard = Card(*[data.get() for data in forget.pack_slaves()])
 
             Session = sessionmaker(bind=engine)  # bound session
             session = Session()
