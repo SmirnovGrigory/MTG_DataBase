@@ -1,9 +1,12 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, MetaData, ForeignKey, Boolean, Text, Date, create_engine, \
     CheckConstraint
+from config import USER, PASSWORD
 
 Base = declarative_base()
 
+engine = create_engine('postgresql://{}:{}@localhost/mtg'.format(USER, PASSWORD),
+                       echo=True)
 
 class Card(Base):
     __tablename__ = 'Cards'

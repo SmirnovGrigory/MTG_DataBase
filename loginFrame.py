@@ -6,7 +6,7 @@ import tkinter.ttk as ttk
 def LoginCardChanger(forget, show):
     def changer(event):
         if forget.login.get() == USER and forget.password.get() == PASSWORD:
-            print(forget.password.get())
+            #print(forget.password.get())
             forget.pack_forget()
             show.pack()
         else:

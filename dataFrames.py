@@ -4,11 +4,8 @@ from sqlalchemy.inspection import inspect
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import func
 from dataClasses import *
+from insertFrame import commitFrameChanger, insertFrameChanger
 from table import Table
-from config import USER, PASSWORD
-
-engine = create_engine('postgresql://{}:{}@localhost/mtg'.format(USER, PASSWORD),
-                       echo=True)
 
 
 def CardLoginChanger(forget, show):
@@ -24,6 +21,111 @@ def CardLoginChanger(forget, show):
 
 def CardSetChanger(forget, show):
     def changer(event):
+        forget.pack_forget()
+        show.pack()
+
+    return changer
+
+def CardInsertChanger(forget, show):
+    def changer(event):
+        show.entry_sheet = Frame(show)
+        one_frame = Frame(show.entry_sheet)
+        sec_frame = Frame(show.entry_sheet)
+        thr_frame = Frame(show.entry_sheet)
+        four_frame = Frame(show.entry_sheet)
+        fif_frame = Frame(show.entry_sheet)
+        six_frame = Frame(show.entry_sheet)
+
+        show.entryName = Entry(one_frame, width=50, text='Name')
+        nameLabel = Label(one_frame, text='Name')
+        show.entryColor = Entry(sec_frame, width=50, text='Color')
+        colorLabel = Label(sec_frame, text='Color')
+        show.entryManaValue = Entry(thr_frame, width=46, text='ManaValue')
+        manaLabel = Label(thr_frame, text='Mana value')
+        show.entryType = Entry(four_frame, width=50, text='Type')
+        typeLabel = Label(four_frame, text='Type')
+        show.entrySet = Entry(fif_frame, width=52, text='Set')
+        setLabel = Label(fif_frame, text='Set')
+        show.entryRarity = Entry(six_frame, width=50, text='Rarity')
+        rarityLabel = Label(six_frame, text='Rarity')
+        show.IsLegendary = BooleanVar()
+        isLegendaryRadio = Checkbutton(show.entry_sheet, text='isLegendary', variable=show.IsLegendary)
+
+        show.entryName.pack(side=RIGHT)
+        nameLabel.pack(side=LEFT)
+        show.entryColor.pack(side=RIGHT)
+        colorLabel.pack(side=LEFT)
+        show.entryManaValue.pack(side=RIGHT)
+        manaLabel.pack(side=LEFT)
+        show.entryType.pack(side=RIGHT)
+        typeLabel.pack(side=LEFT)
+        show.entrySet.pack(side=RIGHT)
+        setLabel.pack(side=LEFT)
+        show.entryRarity.pack(side=RIGHT)
+        rarityLabel.pack(side=LEFT)
+
+        one_frame.pack(side=TOP)
+        sec_frame.pack(side=TOP)
+        thr_frame.pack(side=TOP)
+        four_frame.pack(side=TOP)
+        fif_frame.pack(side=TOP)
+        six_frame.pack(side=TOP)
+        isLegendaryRadio.pack()
+
+        show.entry_sheet.pack(side=TOP)
+        forget.pack_forget()
+        show.commitButton.bind('<ButtonRelease-1>', commitFrameChanger(show, forget))
+        show.cancelButton.bind('<ButtonRelease-1>', insertFrameChanger(show, forget))
+        show.pack()
+
+    return changer
+
+def SetInsertChanger(forget, show):
+    def changer(event):
+        show.entry_sheet = Frame(show)
+        one_frame = Frame(show.entry_sheet)
+        sec_frame = Frame(show.entry_sheet)
+        thr_frame = Frame(show.entry_sheet)
+        four_frame = Frame(show.entry_sheet)
+        fif_frame = Frame(show.entry_sheet)
+        six_frame = Frame(show.entry_sheet)
+
+        show.entryName = Entry(one_frame, width=50, text='Name')
+        nameLabel = Label(one_frame, text='Name')
+        show.entrySet = Entry(sec_frame, width=50, text='Color')
+        SetLabel = Label(sec_frame, text='Set code')
+        show.entryDate = Entry(thr_frame, width=46, text='ManaValue')
+        DateLabel = Label(thr_frame, text='Release date')
+        show.entrySize = Entry(four_frame, width=50, text='Type')
+        SizeLabel = Label(four_frame, text='Size')
+        show.entryBlock = Entry(fif_frame, width=52, text='Set')
+        BlockLabel = Label(fif_frame, text='Block')
+        show.entryCount = Entry(six_frame, width=50, text='Rarity')
+        CountLabel = Label(six_frame, text='Count cards')
+
+        show.entryName.pack(side=RIGHT)
+        nameLabel.pack(side=LEFT)
+        show.entrySet.pack(side=RIGHT)
+        SetLabel.pack(side=LEFT)
+        show.entryDate.pack(side=RIGHT)
+        DateLabel.pack(side=LEFT)
+        show.entrySize.pack(side=RIGHT)
+        SizeLabel.pack(side=LEFT)
+        show.entryBlock.pack(side=RIGHT)
+        BlockLabel.pack(side=LEFT)
+        show.entryCount.pack(side=RIGHT)
+        CountLabel.pack(side=LEFT)
+
+        one_frame.pack(side=TOP)
+        sec_frame.pack(side=TOP)
+        thr_frame.pack(side=TOP)
+        four_frame.pack(side=TOP)
+        fif_frame.pack(side=TOP)
+        six_frame.pack(side=TOP)
+
+        show.entry_sheet.pack(side=TOP)
+        show.commitButton.bind('<ButtonRelease-1>', commitFrameChanger(show, forget))
+        show.cancelButton.bind('<ButtonRelease-1>', insertFrameChanger(show, forget))
         forget.pack_forget()
         show.pack()
 
@@ -131,7 +233,7 @@ class ViewFrame(Frame):
         self.b4.bind('<ButtonRelease-1>', CardSetChanger(self, view))
 
     def set_insert_changer(self, view):
-        self.b2.bind('<ButtonRelease-1>', CardSetChanger(self, view))
+        self.b2.bind('<ButtonRelease-1>', CardInsertChanger(self, view))
 
 
 class SetFrame(Frame):
@@ -162,10 +264,10 @@ class SetFrame(Frame):
 
         b1 = Button(right_frame, bg="red", fg="blue",
                     text="tt")
-        b2 = Button(right_frame, bg="red", fg="blue",
+        self.b2 = Button(right_frame, bg="red", fg="blue",
                     text="add new set")
         b1.pack()
-        b2.pack()
+        self.b2.pack()
         self.b4 = Button(right_frame, bg="red", fg="blue",
                          text="Cards")
         self.b4.pack(side=LEFT)
@@ -186,3 +288,6 @@ class SetFrame(Frame):
 
     def set_new_changer(self, view):
         self.b4.bind('<ButtonRelease-1>', CardSetChanger(self, view))
+
+    def set_insert_changer(self, view):
+        self.b2.bind('<ButtonRelease-1>', SetInsertChanger(self, view))
