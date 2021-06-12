@@ -10,7 +10,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 
-CREATE DATABASE mtg WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'Russian_Russia.1251' LC_CTYPE = 'Russian_Russia.1251';
+CREATE DATABASE mtgS WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'Russian_Russia.1251' LC_CTYPE = 'Russian_Russia.1251';
 ALTER DATABASE mtg OWNER TO "Pasha";
 
 
@@ -205,16 +205,6 @@ INSERT INTO public."Cards" ("Name", "Color", "ManaValue", "Type", "Set", "Rarity
 INSERT INTO public."Cards" ("Name", "Color", "ManaValue", "Type", "Set", "Rarity", "isLegendary") VALUES ('Autumnal Gloom', 'Green', 3, 'Enchantment', 'Shadows over Innistrad', 'Uncommon', false);
 INSERT INTO public."Cards" ("Name", "Color", "ManaValue", "Type", "Set", "Rarity", "isLegendary") VALUES ('The Gitrog Monster', 'Multi', 5, 'Creature', 'Shadows over Innistrad', 'Mythic', true);
 INSERT INTO public."Cards" ("Name", "Color", "ManaValue", "Type", "Set", "Rarity", "isLegendary") VALUES ('Loam Dryad', 'Green', 1, 'Creature', 'Shadows over Innistrad', 'Common', false);
-INSERT INTO public."Cards" ("Name", "Color", "ManaValue", "Type", "Set", "Rarity", "isLegendary") VALUES ('Me', 'Me', 6, 'Me', 'Ixalan', 'Me', false);
-INSERT INTO public."Cards" ("Name", "Color", "ManaValue", "Type", "Set", "Rarity", "isLegendary") VALUES ('ZZZ', 'ZZZ', 6, 'ZZZ', 'Ixalan', 'ZZZ', false);
-INSERT INTO public."Cards" ("Name", "Color", "ManaValue", "Type", "Set", "Rarity", "isLegendary") VALUES ('Pasha', 'Gray', 6, 'Me', 'Ixalan', 'God', false);
-INSERT INTO public."Cards" ("Name", "Color", "ManaValue", "Type", "Set", "Rarity", "isLegendary") VALUES ('Men', 'Me', 6, 'Me', 'Ixalan', 'Me', false);
-INSERT INTO public."Cards" ("Name", "Color", "ManaValue", "Type", "Set", "Rarity", "isLegendary") VALUES ('PASHA', 'BLYAT', 6, 'SUKA', 'Ixalan', 'ABOBA', false);
-INSERT INTO public."Cards" ("Name", "Color", "ManaValue", "Type", "Set", "Rarity", "isLegendary") VALUES ('PASHAS', 'BLYAT', 6, 'SUKA', 'Ixalan', 'ABOBA', false);
-INSERT INTO public."Cards" ("Name", "Color", "ManaValue", "Type", "Set", "Rarity", "isLegendary") VALUES ('PASHASA', 'BLYAT', 6, 'SUKA', 'Ixalan', 'ABOBA', false);
-INSERT INTO public."Cards" ("Name", "Color", "ManaValue", "Type", "Set", "Rarity", "isLegendary") VALUES ('PASHAXX', 'BLYAT', 6, 'SUKA', 'Ixalan', 'ABOBA', false);
-INSERT INTO public."Cards" ("Name", "Color", "ManaValue", "Type", "Set", "Rarity", "isLegendary") VALUES ('Pashaaa', 'greyyy', 6, 'Meee', 'Ixalan', 'Gooold', true);
-
 
 INSERT INTO public."Sets" ("Name", "ReleaseDate", "Size", "Block", "CountCards") VALUES ('New Phyrexia', '2011-05-07', 175, 'Scars of Mirrodin', 0);
 INSERT INTO public."Sets" ("Name", "ReleaseDate", "Size", "Block", "CountCards") VALUES ('Journey into Nyx', '2014-05-02', 165, 'Theros', 0);
